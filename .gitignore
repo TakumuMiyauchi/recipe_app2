@@ -1,0 +1,43 @@
+# -------------------------------Web (TypeScript)-------------------------------
+
+# Logs
+Web/**/logs
+Web/**/*.log
+Web/**/npm-debug.log*
+Web/**/yarn-debug.log*
+Web/**/yarn-error.log*
+Web/**/pnpm-debug.log*
+Web/**/lerna-debug.log*
+
+Web/**/node_modules/
+Web/**/dist/
+Web/**/dist-ssr
+Web/**/*.local
+
+# -------------------------------AP (Java Gradle IDE)-------------------------------
+
+AP/**/.gradle/
+AP/**/build/
+
+!AP/**/gradle/wrapper/gradle-wrapper.jar
+
+### IntelliJ IDEA ###
+AP/**/*.iws
+AP/**/*.iml
+AP/**/*.ipr
+AP/**/out/
+
+### VS Code ###
+**/.vscode/
+
+# Secrets / local overrides
+AP/**/src/main/resources/application-local.properties
+
+# Editor directories and files
+**/.idea/
+.DS_Store
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
