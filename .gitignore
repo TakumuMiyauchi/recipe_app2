@@ -18,6 +18,8 @@ Web/**/*.local
 
 AP/**/.gradle/
 AP/**/build/
+AP/**/bin/
+AP/**/*.zip
 
 !AP/**/gradle/wrapper/gradle-wrapper.jar
 
@@ -41,3 +43,6 @@ AP/**/src/main/resources/application-local.properties
 *.njsproj
 *.sln
 *.sw?
+
+# claude向けドキュメント
+./docs

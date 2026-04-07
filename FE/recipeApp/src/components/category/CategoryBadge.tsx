@@ -6,7 +6,7 @@ interface CategoryBadgeProps {
 }
 
 const CategoryBadge = ({ category }: CategoryBadgeProps) => {
-  const { bg, text } = getCategoryColor(category.categoryId);
+  const { bg, text } = getCategoryColor(category);
   return (
     <span className={`inline-block px-2 py-0.5 rounded-full text-xs font-medium ${bg} ${text}`}>
       {category.categoryName}

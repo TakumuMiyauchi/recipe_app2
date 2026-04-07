@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useRef } from 'react';
 import type { Category } from '../../types/category';
 import Input from '../common/Input';
 import Button from '../common/Button';
@@ -16,7 +16,7 @@ export interface RecipeFormValues {
 interface RecipeFormProps {
   initialValues?: Partial<RecipeFormValues>;
   categories: Category[];
-  onSubmit: (values: RecipeFormValues) => Promise<void>;
+  onSubmit: (values: RecipeFormValues, imageFile?: File) => Promise<void>;
   submitLabel?: string;
 }
 
@@ -43,6 +43,9 @@ const RecipeForm = ({
   const [step, setStep] = useState<Step>('form');
   const [errors, setErrors] = useState<Partial<RecipeFormValues>>({});
   const [submitting, setSubmitting] = useState(false);
+  const [imageFile, setImageFile] = useState<File | null>(null);
+  const [imagePreview, setImagePreview] = useState<string>(initialValues?.imagePath ?? '');
+  const fileInputRef = useRef<HTMLInputElement>(null);
 
   const set = (key: keyof RecipeFormValues, value: string | number[]) =>
     setValues((prev) => ({ ...prev, [key]: value }));
@@ -56,10 +59,20 @@ const RecipeForm = ({
     );
   };
 
+  const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    setImageFile(file);
+    const previewUrl = URL.createObjectURL(file);
+    setImagePreview(previewUrl);
+    // 実際のアップロード後にサーバーから返されるパスを imagePath にセットする
+    // 現時点ではファイル名を仮セット（バックエンドでのマルチパートアップロード実装後に更新）
+    set('imagePath', file.name);
+  };
+
   const validate = (): boolean => {
     const newErrors: Partial<RecipeFormValues> = {};
     if (!values.recipeName.trim()) newErrors.recipeName = 'レシピ名は必須です';
-    if (!values.recipeUrl.trim()) newErrors.recipeUrl = 'レシピURLは必須です';
     if (values.categoryIds.length === 0)
       newErrors.categoryIds = ['カテゴリを1つ以上選択してください'] as unknown as number[];
     setErrors(newErrors);
@@ -73,7 +86,7 @@ const RecipeForm = ({
   const handleSubmit = async () => {
     setSubmitting(true);
     try {
-      await onSubmit(values);
+      await onSubmit(values, imageFile ?? undefined);
     } finally {
       setSubmitting(false);
     }
@@ -96,14 +109,18 @@ const RecipeForm = ({
             <dt className="text-gray-500 mb-1">レシピ名 <span className="text-red-400">*</span></dt>
             <dd className="text-gray-800 font-medium">{values.recipeName}</dd>
           </div>
-          <div>
-            <dt className="text-gray-500 mb-1">レシピURL <span className="text-red-400">*</span></dt>
-            <dd className="text-orange-400 break-all">{values.recipeUrl}</dd>
-          </div>
-          {values.imagePath && (
+          {values.recipeUrl && (
             <div>
-              <dt className="text-gray-500 mb-1">画像URL</dt>
-              <dd className="text-gray-800 break-all">{values.imagePath}</dd>
+              <dt className="text-gray-500 mb-1">レシピURL</dt>
+              <dd className="text-orange-400 break-all">{values.recipeUrl}</dd>
+            </div>
+          )}
+          {imagePreview && (
+            <div>
+              <dt className="text-gray-500 mb-1">料理写真</dt>
+              <dd>
+                <img src={imagePreview} alt="プレビュー" className="w-full max-h-48 object-cover rounded-lg" />
+              </dd>
             </div>
           )}
           {values.note && (
@@ -137,7 +154,7 @@ const RecipeForm = ({
           <div className="flex flex-wrap gap-2">
             {categories.map((cat) => {
               const isSelected = values.categoryIds.includes(cat.categoryId);
-              const { bg, text } = getCategoryColor(cat.categoryId);
+              const { bg, text } = getCategoryColor(cat);
               return (
                 <button
                   key={cat.categoryId}
@@ -168,23 +185,57 @@ const RecipeForm = ({
 
         <Input
           id="recipeUrl"
-          label="レシピURL"
+          label="レシピURL（任意）"
           type="url"
           value={values.recipeUrl}
           onChange={(e) => set('recipeUrl', e.target.value)}
           placeholder="https://..."
-          error={errors.recipeUrl}
-          required
         />
 
-        <Input
-          id="imagePath"
-          label="料理写真URL（任意）"
-          type="url"
-          value={values.imagePath}
-          onChange={(e) => set('imagePath', e.target.value)}
-          placeholder="https://..."
-        />
+        {/* 料理写真アップロード */}
+        <div className="flex flex-col gap-1">
+          <label className="text-sm font-medium text-gray-700">
+            料理写真（任意）
+          </label>
+          <div
+            className="w-full rounded-lg border-2 border-dashed border-gray-300 hover:border-orange-400 transition-colors cursor-pointer overflow-hidden"
+            onClick={() => fileInputRef.current?.click()}
+          >
+            {imagePreview ? (
+              <img
+                src={imagePreview}
+                alt="プレビュー"
+                className="w-full max-h-48 object-cover"
+              />
+            ) : (
+              <div className="flex flex-col items-center justify-center py-8 text-gray-400">
+                <span className="text-3xl mb-2">📷</span>
+                <span className="text-sm">クリックして写真を選択</span>
+              </div>
+            )}
+          </div>
+          <input
+            ref={fileInputRef}
+            type="file"
+            accept="image/*"
+            className="hidden"
+            onChange={handleImageChange}
+          />
+          {imagePreview && (
+            <button
+              type="button"
+              className="text-xs text-gray-400 hover:text-red-400 text-left mt-1 transition-colors"
+              onClick={() => {
+                setImageFile(null);
+                setImagePreview('');
+                set('imagePath', '');
+                if (fileInputRef.current) fileInputRef.current.value = '';
+              }}
+            >
+              × 写真を削除
+            </button>
+          )}
+        </div>
 
         <div className="flex flex-col gap-1">
           <label htmlFor="note" className="text-sm font-medium text-gray-700">

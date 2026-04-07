@@ -53,7 +53,7 @@ public class SecurityConfig {
                 // どのURLが認証情報が必要なのかを設定
                 .authorizeHttpRequests(auth -> auth
                         // 認証情報が不要
-                        .requestMatchers("/health", "/auth/login", "/user/register", "/categories").permitAll()
+                        .requestMatchers("/health", "/auth/login", "/user/register", "/categories", "/uploads/**").permitAll()
                         .anyRequest().authenticated()
                 )
                 // UsernamePasswordAuthenticationFilter.class よりも先に自作filterが動く

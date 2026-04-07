@@ -68,6 +68,7 @@ public RecipeDetailResponse getRecipeDetail(Long recipeId) {
 
         return new RecipeDetailResponse(
                 recipeDetail.getRecipeId(),
+                recipeDetail.getUserId(),
                 recipeDetail.getRecipeName(),
                 recipeDetail.getRecipeUrl(),
                 recipeDetail.getImagePath(),

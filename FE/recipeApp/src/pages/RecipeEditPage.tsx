@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import { getRecipeDetail, updateRecipe } from '../api/recipeApi';
+import { getRecipeDetail, updateRecipe, uploadImage } from '../api/recipeApi';
 import RecipeForm, { type RecipeFormValues } from '../components/recipe/RecipeForm';
 import useCategories from '../hooks/useCategories';
 import LoadingSpinner from '../components/common/LoadingSpinner';
@@ -23,9 +23,14 @@ const RecipeEditPage = () => {
       .finally(() => setLoading(false));
   }, [id]);
 
-  const handleSubmit = async (values: RecipeFormValues) => {
+  const handleSubmit = async (values: RecipeFormValues, imageFile?: File) => {
+    let imagePath = values.imagePath;
+    if (imageFile) {
+      imagePath = await uploadImage(imageFile);
+    }
     await updateRecipe(Number(id), {
       ...values,
+      imagePath,
       recipeCount: recipe?.recipeCount ?? 0,
       categoryIds: values.categoryIds,
     });

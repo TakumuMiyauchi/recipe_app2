@@ -13,7 +13,7 @@ const RecipeCard = ({ recipe }: RecipeCardProps) => {
   return (
     <Link
       to={`/recipes/${recipe.recipeId}`}
-      className="block bg-white rounded-xl shadow-sm hover:shadow-md transition-shadow border border-gray-100"
+      className="block bg-white rounded-xl shadow-sm hover:shadow-lg hover:-translate-y-1 hover:border-orange-200 transition-all duration-200 border border-gray-100"
     >
       <RecipeThumbnail imagePath={recipe.imagePath} categories={recipe.categories} size="md" />
       <div className="p-3">

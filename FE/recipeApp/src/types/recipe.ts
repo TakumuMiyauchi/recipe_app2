@@ -13,6 +13,7 @@ export interface RecipeListItem {
 
 export interface RecipeDetail {
   recipeId: number;
+  userId: number;
   recipeName: string;
   recipeUrl: string;
   imagePath: string | null;

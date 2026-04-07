@@ -1,5 +1,5 @@
 import { useNavigate } from 'react-router-dom';
-import { createRecipe } from '../api/recipeApi';
+import { createRecipe, uploadImage } from '../api/recipeApi';
 import RecipeForm, { type RecipeFormValues } from '../components/recipe/RecipeForm';
 import useCategories from '../hooks/useCategories';
 import LoadingSpinner from '../components/common/LoadingSpinner';
@@ -9,9 +9,14 @@ const RecipeNewPage = () => {
   const navigate = useNavigate();
   const { categories, loading, error } = useCategories();
 
-  const handleSubmit = async (values: RecipeFormValues) => {
+  const handleSubmit = async (values: RecipeFormValues, imageFile?: File) => {
+    let imagePath = values.imagePath;
+    if (imageFile) {
+      imagePath = await uploadImage(imageFile);
+    }
     await createRecipe({
       ...values,
+      imagePath,
       recipeCount: 0,
       categoryIds: values.categoryIds,
     });

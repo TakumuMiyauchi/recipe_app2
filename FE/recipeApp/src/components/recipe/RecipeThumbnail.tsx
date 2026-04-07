@@ -12,9 +12,17 @@ const sizeClass = {
   lg: 'h-56',
 };
 
+// /uploads/ から始まるパスはバックエンドから配信するためAPIベースURLを付与する
+const resolveImageUrl = (path: string): string => {
+  if (path.startsWith('/uploads/')) {
+    return `${import.meta.env.VITE_API_BASE_URL}${path}`;
+  }
+  return path;
+};
+
 const RecipeThumbnail = ({ imagePath, categories, size = 'md' }: RecipeThumbnailProps) => {
-  // レシピ画像があればそちらを表示
-  const src = imagePath || categories[0]?.thumbnailPath || null;
+  const rawPath = imagePath || categories[0]?.thumbnailPath || null;
+  const src = rawPath ? resolveImageUrl(rawPath) : null;
 
   if (src) {
     return (
@@ -24,7 +32,6 @@ const RecipeThumbnail = ({ imagePath, categories, size = 'md' }: RecipeThumbnail
     );
   }
 
-  // どちらもない場合はグレーの無地フォールバック
   return (
     <div className={`w-full ${sizeClass[size]} rounded-t-xl bg-gray-200 flex items-center justify-center`}>
       <span className="text-gray-400 text-sm">No Image</span>

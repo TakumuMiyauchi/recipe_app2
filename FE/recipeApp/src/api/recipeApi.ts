@@ -36,3 +36,12 @@ export const getCategories = async (): Promise<Category[]> => {
   const res = await axiosInstance.get<Category[]>('/categories');
   return res.data;
 };
+
+export const uploadImage = async (file: File): Promise<string> => {
+  const form = new FormData();
+  form.append('file', file);
+  const res = await axiosInstance.post<{ path: string }>('/upload', form, {
+    headers: { 'Content-Type': 'multipart/form-data' },
+  });
+  return res.data.path;
+};

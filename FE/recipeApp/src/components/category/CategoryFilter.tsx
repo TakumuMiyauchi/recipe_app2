@@ -27,7 +27,7 @@ const CategoryFilter = ({ categories, selected, onChange }: CategoryFilterProps)
         すべて
       </button>
       {categories.map((cat) => {
-        const { bg, text } = getCategoryColor(cat.categoryId);
+        const { bg, text } = getCategoryColor(cat);
         const isActive = selected.includes(cat.categoryId);
         return (
           <button

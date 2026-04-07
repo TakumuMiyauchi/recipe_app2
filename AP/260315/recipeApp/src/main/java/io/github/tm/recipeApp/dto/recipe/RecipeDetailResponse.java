@@ -8,6 +8,7 @@ import java.util.List;
 @Data
 public class RecipeDetailResponse {
     private Long recipeId;
+    private Long userId;
     private String recipeName;
     private String recipeUrl;
     private String imagePath;
@@ -18,6 +19,7 @@ public class RecipeDetailResponse {
 
     public RecipeDetailResponse(
             Long recipeId,
+            Long userId,
             String recipeName,
             String recipeUrl,
             String imagePath,
@@ -27,6 +29,7 @@ public class RecipeDetailResponse {
             List<CategoryResponse> categories
     ) {
         this.recipeId = recipeId;
+        this.userId = userId;
         this.recipeName = recipeName;
         this.recipeUrl = recipeUrl;
         this.imagePath = imagePath;

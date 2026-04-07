@@ -9,10 +9,12 @@ import Modal from '../components/common/Modal';
 import Button from '../components/common/Button';
 import LoadingSpinner from '../components/common/LoadingSpinner';
 import ErrorMessage from '../components/common/ErrorMessage';
+import { useAuth } from '../context/AuthContext';
 
 const RecipeDetailPage = () => {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
+  const { user } = useAuth();
   const [recipe, setRecipe] = useState<RecipeDetail | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
@@ -29,19 +31,23 @@ const RecipeDetailPage = () => {
       .finally(() => setLoading(false));
   }, [id]);
 
-  const handleCount = async () => {
+  const isOwner = !!(user && recipe && user.userId === recipe.userId);
+
+  const handleCount = async (delta: 1 | -1) => {
     if (!recipe) return;
+    const next = recipe.recipeCount + delta;
+    if (next < 0) return;
     setCounting(true);
     try {
       await updateRecipe(recipe.recipeId, {
         recipeName: recipe.recipeName,
         recipeUrl: recipe.recipeUrl ?? '',
         imagePath: recipe.imagePath ?? '',
-        recipeCount: recipe.recipeCount + 1,
+        recipeCount: next,
         note: recipe.note ?? '',
         categoryIds: recipe.categories.map((c) => c.categoryId),
       });
-      setRecipe({ ...recipe, recipeCount: recipe.recipeCount + 1 });
+      setRecipe({ ...recipe, recipeCount: next });
     } finally {
       setCounting(false);
     }
@@ -105,11 +111,25 @@ const RecipeDetailPage = () => {
           <div className="flex items-center justify-between bg-orange-50 rounded-xl px-4 py-3 mb-4">
             <div>
               <p className="text-xs text-orange-400 font-medium">作った回数</p>
-              <p className="text-2xl font-bold text-orange-500">{recipe.recipeCount}<span className="text-sm font-normal ml-1">回</span></p>
+              <p className="text-2xl font-bold text-orange-500">
+                {recipe.recipeCount}<span className="text-sm font-normal ml-1">回</span>
+              </p>
             </div>
-            <Button onClick={handleCount} disabled={counting} size="sm">
-              {counting ? '更新中...' : '🍳 作った！'}
-            </Button>
+            {isOwner && (
+              <div className="flex items-center gap-2">
+                <button
+                  onClick={() => handleCount(-1)}
+                  disabled={counting || recipe.recipeCount === 0}
+                  className="w-8 h-8 rounded-full bg-orange-100 text-orange-500 hover:bg-orange-200 disabled:opacity-40 disabled:cursor-not-allowed transition-colors flex items-center justify-center text-lg font-bold"
+                  title="カウントダウン"
+                >
+                  −
+                </button>
+                <Button onClick={() => handleCount(1)} disabled={counting} size="sm">
+                  {counting ? '更新中...' : '🍳 作った！'}
+                </Button>
+              </div>
+            )}
           </div>
 
           {/* 備考 */}
@@ -125,15 +145,33 @@ const RecipeDetailPage = () => {
             <Button variant="ghost" size="sm" onClick={() => setShareOpen(true)}>
               🔗 共有
             </Button>
-            <Link to={`/recipes/${recipe.recipeId}/edit`} className="flex-1">
-              <Button variant="secondary" size="sm" className="w-full">
+            {isOwner ? (
+              <Link to={`/recipes/${recipe.recipeId}/edit`} className="flex-1">
+                <Button variant="secondary" size="sm" className="w-full">
+                  ✏️ 編集
+                </Button>
+              </Link>
+            ) : (
+              <Button variant="secondary" size="sm" className="flex-1" disabled title="他のユーザーのレシピは編集できません">
                 ✏️ 編集
               </Button>
-            </Link>
-            <Button variant="danger" size="sm" onClick={() => setDeleteOpen(true)}>
+            )}
+            <Button
+              variant="danger"
+              size="sm"
+              onClick={() => setDeleteOpen(true)}
+              disabled={!isOwner}
+              title={!isOwner ? '他のユーザーのレシピは削除できません' : undefined}
+            >
               削除
             </Button>
           </div>
+
+          {!isOwner && (
+            <p className="text-xs text-gray-400 text-center mt-2">
+              編集・削除は作成者のみ可能です
+            </p>
+          )}
         </div>
       </div>
 
