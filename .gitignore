@@ -37,12 +37,10 @@ AP/**/src/main/resources/application-local.properties
 
 # Editor directories and files
 **/.idea/
+**/.sql/
 .DS_Store
 *.suo
 *.ntvs*
 *.njsproj
 *.sln
 *.sw?
-
-# claude向けドキュメント
-./docs
