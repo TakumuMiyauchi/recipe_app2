@@ -36,7 +36,7 @@ AP/**/out/
 AP/**/src/main/resources/application-local.properties
 
 # Editor directories and files
-**/.idea/
+**/.ideas/
 **/.sql/
 .DS_Store
 *.suo
