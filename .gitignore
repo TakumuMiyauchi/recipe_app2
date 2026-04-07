@@ -13,6 +13,9 @@ Web/**/node_modules/
 Web/**/dist/
 Web/**/dist-ssr
 Web/**/*.local
+Web/**/.env
+Web/**/.env.local
+Web/**/.env.*.local
 
 # -------------------------------AP (Java Gradle IDE)-------------------------------
 
@@ -36,11 +39,13 @@ AP/**/out/
 AP/**/src/main/resources/application-local.properties
 
 # Editor directories and files
-**/.ideas/
-**/.sql/
+**/.idea/
 .DS_Store
 *.suo
 *.ntvs*
 *.njsproj
 *.sln
 *.sw?
+
+# claude code
+/docs
