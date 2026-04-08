@@ -82,7 +82,9 @@ const RecipeListPage = () => {
           >
             登録日 {sortKey === 'registeredAt' ? (sortAsc ? '↑' : '↓') : ''}
           </button>
-          <button
+		  
+		  {/* 作った回数 */}
+          {/* <button
             onClick={() => {
               if (sortKey === 'recipeCount') setSortAsc(!sortAsc);
               else { setSortKey('recipeCount'); setSortAsc(false); }
@@ -91,7 +93,7 @@ const RecipeListPage = () => {
               ${sortKey === 'recipeCount' ? 'border-orange-400 text-orange-500 bg-orange-50' : 'border-gray-200 text-gray-500'}`}
           >
             作った回数 {sortKey === 'recipeCount' ? (sortAsc ? '↑' : '↓') : ''}
-          </button>
+          </button> */}
 
           {userNames.length > 1 && (
             <select

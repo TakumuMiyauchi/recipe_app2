@@ -25,7 +25,7 @@ const RecipeCard = ({ recipe }: RecipeCardProps) => {
         </div>
         <div className="flex items-center justify-between text-xs text-gray-400">
           <span>{recipe.userName}</span>
-          <span>🍳 {recipe.recipeCount}回</span>
+          {/* <span>🍳 {recipe.recipeCount}回</span> */}
         </div>
         <p className="text-xs text-gray-400 mt-1">{registeredAt}</p>
       </div>

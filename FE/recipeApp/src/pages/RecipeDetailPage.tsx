@@ -108,7 +108,7 @@ const RecipeDetailPage = () => {
           </div>
 
           {/* 作った回数 */}
-          <div className="flex items-center justify-between bg-orange-50 rounded-xl px-4 py-3 mb-4">
+          {/* <div className="flex items-center justify-between bg-orange-50 rounded-xl px-4 py-3 mb-4">
             <div>
               <p className="text-xs text-orange-400 font-medium">作った回数</p>
               <p className="text-2xl font-bold text-orange-500">
@@ -130,7 +130,7 @@ const RecipeDetailPage = () => {
                 </Button>
               </div>
             )}
-          </div>
+          </div> */}
 
           {/* 備考 */}
           {recipe.note && (
