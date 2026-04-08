@@ -97,7 +97,7 @@ public RecipeDetailResponse getRecipeDetail(Long recipeId) {
         recipe.setImagePath(
 //        FEで画像を登録しなかった場合、明示的にNULLにする
                 request.getImagePath() == null || request.getImagePath().isBlank()
-                        ? null
+                        ? "/thumbnail_images/default.svg"
                         : request.getImagePath()
         );
         recipe.setRecipeCount(0);
@@ -135,8 +135,9 @@ public void recipeEditor (Long recipeId, RecipeEditorRequest request, Long userI
     recipe.setRecipeName(request.getRecipeName());
     recipe.setRecipeUrl(request.getRecipeUrl());
     recipe.setImagePath(
+//        FEで画像を登録しなかった場合、明示的にNULLにする
             request.getImagePath() == null || request.getImagePath().isBlank()
-                    ? null
+                    ? "/thumbnail_images/default.svg"
                     : request.getImagePath()
     );
 

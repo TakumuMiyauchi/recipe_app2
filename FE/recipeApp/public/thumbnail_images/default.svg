@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="400" height="300" viewBox="0 0 400 300">
+  <rect width="400" height="300" fill="#e5e7eb"/>
+  <circle cx="200" cy="130" r="60" fill="#d1d5db"/>
+  <circle cx="200" cy="130" r="48" fill="#e5e7eb"/>
+  <ellipse cx="200" cy="178" rx="72" ry="10" fill="#d1d5db"/>
+  <rect x="196" y="70" width="8" height="30" rx="4" fill="#d1d5db"/>
+  <text x="200" y="230" font-family="'Hiragino Maru Gothic ProN', 'BIZ UDPGothic', 'Meiryo', sans-serif"
+        font-size="20" font-weight="500" text-anchor="middle" dominant-baseline="middle" fill="#9ca3af">No Image</text>
+</svg>
