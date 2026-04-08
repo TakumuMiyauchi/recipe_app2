@@ -1,8 +1,5 @@
-import type { Category } from '../../types/category';
-
 interface RecipeThumbnailProps {
   imagePath: string | null;
-  categories: Category[];
   size?: 'sm' | 'md' | 'lg';
 }
 
@@ -20,9 +17,8 @@ const resolveImageUrl = (path: string): string => {
   return path;
 };
 
-const RecipeThumbnail = ({ imagePath, categories, size = 'md' }: RecipeThumbnailProps) => {
-  const rawPath = imagePath || categories[0]?.thumbnailPath || null;
-  const src = rawPath ? resolveImageUrl(rawPath) : null;
+const RecipeThumbnail = ({ imagePath, size = 'md' }: RecipeThumbnailProps) => {
+  const src = imagePath ? resolveImageUrl(imagePath) : null;
 
   if (src) {
     return (

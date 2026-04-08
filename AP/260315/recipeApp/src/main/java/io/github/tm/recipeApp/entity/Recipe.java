@@ -29,7 +29,7 @@ public class Recipe {
     @Column(name = "recipe_url", length = 2048)
     private String recipeUrl;
 
-    @Column(name = "image_path", nullable = false, length = 255)
+    @Column(name = "image_path", nullable = true, length = 255)
     private String imagePath;
 
     @Column(name = "recipe_count", nullable = false)
@@ -54,14 +54,7 @@ public class Recipe {
         if (registeredAt == null) {
             registeredAt = LocalDateTime.now();
         }
-        if (imagePath == null) {
-            imagePath = "/images/recipes/default.png";
-        }
-        if (recipeCount == null) {
-            recipeCount = 0;
-        }
     }
 
 
 }
-

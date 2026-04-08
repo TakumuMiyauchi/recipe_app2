@@ -15,7 +15,7 @@ const RecipeCard = ({ recipe }: RecipeCardProps) => {
       to={`/recipes/${recipe.recipeId}`}
       className="block bg-white rounded-xl shadow-sm hover:shadow-lg hover:-translate-y-1 hover:border-orange-200 transition-all duration-200 border border-gray-100"
     >
-      <RecipeThumbnail imagePath={recipe.imagePath} categories={recipe.categories} size="md" />
+      <RecipeThumbnail imagePath={recipe.imagePath} size="md" />
       <div className="p-3">
         <p className="font-semibold text-gray-800 text-sm line-clamp-2 mb-2">{recipe.recipeName}</p>
         <div className="flex flex-wrap gap-1 mb-2">

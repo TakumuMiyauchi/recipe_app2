@@ -73,7 +73,7 @@ const RecipeDetailPage = () => {
   return (
     <div className="max-w-xl mx-auto">
       <div className="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
-        <RecipeThumbnail imagePath={recipe.imagePath} categories={recipe.categories} size="lg" />
+        <RecipeThumbnail imagePath={recipe.imagePath} size="lg" />
 
         <div className="p-5">
           {/* カテゴリバッジ */}

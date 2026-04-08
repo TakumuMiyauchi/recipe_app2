@@ -135,9 +135,8 @@ public void recipeEditor (Long recipeId, RecipeEditorRequest request, Long userI
     recipe.setRecipeName(request.getRecipeName());
     recipe.setRecipeUrl(request.getRecipeUrl());
     recipe.setImagePath(
-//        FEで画像を登録しなかった場合、明示的にNULLにする
             request.getImagePath() == null || request.getImagePath().isBlank()
-                    ? "/images/recipes/default.png"
+                    ? null
                     : request.getImagePath()
     );
 
