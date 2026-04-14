@@ -1,9 +1,7 @@
 package io.github.tm.recipeApp.controller.user;
 
-import io.github.tm.recipeApp.dto.auth.LoginRequest;
-import io.github.tm.recipeApp.dto.auth.LoginResponse;
 import io.github.tm.recipeApp.dto.user.RegisterRequest;
-import io.github.tm.recipeApp.repository.UserRepository;
+import io.github.tm.recipeApp.dto.user.ResetPasswordRequest;
 import io.github.tm.recipeApp.service.UserService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -25,5 +23,11 @@ public class UserController {
     public ResponseEntity<String> register(@RequestBody RegisterRequest request) {
         userService.register(request);
         return ResponseEntity.ok("ユーザー登録完了");
+    }
+
+    @PostMapping("/reset-password")
+    public ResponseEntity<String> resetPassword(@RequestBody ResetPasswordRequest request) {
+        userService.resetPassword(request);
+        return ResponseEntity.ok("パスワードを変更しました");
     }
 }

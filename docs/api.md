@@ -5,6 +5,8 @@ GET /me
 
 新規ユーザー登録(/user)
 POST /user/register
+パスワード変更
+POST /user/reset-password
 
 レシピ一覧表示
 GET /recipes

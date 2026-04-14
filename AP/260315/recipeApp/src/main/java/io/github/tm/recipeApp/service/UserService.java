@@ -1,10 +1,13 @@
 package io.github.tm.recipeApp.service;
 
 import io.github.tm.recipeApp.dto.user.RegisterRequest;
+import io.github.tm.recipeApp.dto.user.ResetPasswordRequest;
 import io.github.tm.recipeApp.entity.User;
 import io.github.tm.recipeApp.repository.UserRepository;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 @Service
 public class UserService {
@@ -16,6 +19,15 @@ public class UserService {
                        PasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
+    }
+
+    // 指定メールアドレスのユーザーのPWを変更する
+    public void resetPassword(ResetPasswordRequest request) {
+        User user = userRepository.findByEmail(request.getEmail())
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "該当するユーザーが見つかりません"));
+
+        user.setPasswordHash(passwordEncoder.encode(request.getNewPassword()));
+        userRepository.save(user);
     }
 
 	// PWをハッシュ化してDBにユーザー情報を登録する

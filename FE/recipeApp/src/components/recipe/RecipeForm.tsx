@@ -1,4 +1,11 @@
 import { useState, useRef } from 'react';
+
+const resolveImageUrl = (path: string): string => {
+  if (path.startsWith('/uploads/')) {
+    return `${import.meta.env.VITE_API_BASE_URL}${path}`;
+  }
+  return path;
+};
 import type { Category } from '../../types/category';
 import Input from '../common/Input';
 import Button from '../common/Button';
@@ -44,7 +51,9 @@ const RecipeForm = ({
   const [errors, setErrors] = useState<Partial<RecipeFormValues>>({});
   const [submitting, setSubmitting] = useState(false);
   const [imageFile, setImageFile] = useState<File | null>(null);
-  const [imagePreview, setImagePreview] = useState<string>(initialValues?.imagePath ?? '');
+  const [imagePreview, setImagePreview] = useState<string>(
+    initialValues?.imagePath ? resolveImageUrl(initialValues.imagePath) : ''
+  );
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   const set = (key: keyof RecipeFormValues, value: string | number[]) =>

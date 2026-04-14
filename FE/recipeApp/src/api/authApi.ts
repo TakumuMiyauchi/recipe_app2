@@ -14,3 +14,7 @@ export const getMe = async (): Promise<MeResponse> => {
   const res = await axiosInstance.get<MeResponse>('/auth/me');
   return res.data;
 };
+
+export const resetPassword = async (email: string, newPassword: string): Promise<void> => {
+  await axiosInstance.post('/user/reset-password', { email, newPassword });
+};

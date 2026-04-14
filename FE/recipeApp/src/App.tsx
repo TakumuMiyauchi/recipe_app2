@@ -8,6 +8,7 @@ import RecipeListPage from './pages/RecipeListPage';
 import RecipeDetailPage from './pages/RecipeDetailPage';
 import RecipeNewPage from './pages/RecipeNewPage';
 import RecipeEditPage from './pages/RecipeEditPage';
+import ForgotPasswordPage from './pages/ForgotPasswordPage';
 
 const App = () => (
   <BrowserRouter>
@@ -15,6 +16,7 @@ const App = () => (
       <Routes>
         <Route path="/login" element={<LoginPage />} />
         <Route path="/register" element={<RegisterPage />} />
+        <Route path="/forgot-password" element={<ForgotPasswordPage />} />
 
         <Route element={<PrivateRoute />}>
           <Route element={<Layout />}>
