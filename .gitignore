@@ -48,4 +48,4 @@ AP/**/src/main/resources/application-local.properties
 *.sw?
 
 # claude code
-/docs
+/docs/ideas
